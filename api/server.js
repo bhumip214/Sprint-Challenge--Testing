@@ -23,7 +23,7 @@ server.post("/games", async (req, res) => {
 
       res.status(201).json(game);
     } else {
-      res.status(400).json({
+      res.status(422).json({
         errorMessage: "Please provide the title and genre of a game."
       });
     }

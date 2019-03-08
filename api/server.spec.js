@@ -68,7 +68,7 @@ describe("GAMES ENDPOINTS TESTING", () => {
       expect(res.body.title).toBe("Pacman");
     });
 
-    // testing 201 HTTP status code for POST
+    // testing 201 HTTP status code  when received correct game data
     it("should return 201 when adding a new game ", async () => {
       const res = await request(server)
         .post("/games")
@@ -81,17 +81,13 @@ describe("GAMES ENDPOINTS TESTING", () => {
       expect(res.status).toBe(201);
     });
 
-    //testing 400 HTTP status code for POST
-    it("should return 400 when title and genre not provided", async () => {
+    //testing 422 HTTP status code when received incorrect game data
+    it("should return 422 when title and genre are not provided", async () => {
       const res = await request(server)
         .post("/games")
-        .send({
-          title: "",
-          genre: "",
-          releaseYear: 1980
-        });
+        .send({ title: "", genre: "", releaseYear: 1980 });
 
-      expect(res.status).toBe(400);
+      expect(res.status).toBe(422);
     });
   });
 });
