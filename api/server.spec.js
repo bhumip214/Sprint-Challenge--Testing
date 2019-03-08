@@ -90,4 +90,23 @@ describe("GAMES ENDPOINTS TESTING", () => {
       expect(res.status).toBe(422);
     });
   });
+
+  //testing DELETE
+  describe("DELETE '/games/:id'", () => {
+    // testing 200 HTTP status code
+    it("should return 200 when a game is deleted", async () => {
+      const { body } = await request(server)
+        .post("/games")
+        .send({ title: "Mario", genre: "Platform", releaseYear: 1985 });
+
+      const res = await request(server).delete(`/games/${body.id}`);
+      expect(res.status).toBe(200);
+    });
+
+    it("should return JSON", async () => {
+      const res = await request(server).delete("/games/:id");
+
+      expect(res.type).toEqual("application/json");
+    });
+  });
 });
