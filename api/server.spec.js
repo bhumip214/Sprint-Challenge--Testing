@@ -103,6 +103,18 @@ describe("GAMES ENDPOINTS TESTING", () => {
       expect(res.status).toBe(200);
     });
 
+    it("should return 404 when a game does not exist", async () => {
+      const { body } = await request(server)
+        .post("/games")
+        .send({ title: "Mario", genre: "Platform", releaseYear: 1985 });
+
+      const res = await request(server).delete(`/games/${body.id}`);
+      expect(res.status).toBe(200);
+
+      const res1 = await request(server).delete(`/games/${body.id}`);
+      expect(res1.status).toBe(404);
+    });
+
     it("should return JSON", async () => {
       const res = await request(server).delete("/games/:id");
 
