@@ -14,12 +14,19 @@ async function insert(game) {
 
 async function remove(id) {
   return db("games")
-    .where("id", id)
+    .where({ id })
     .del();
+}
+
+function findById(id) {
+  return db("games")
+    .where({ id })
+    .first();
 }
 
 module.exports = {
   getAll,
   insert,
-  remove
+  remove,
+  findById
 };

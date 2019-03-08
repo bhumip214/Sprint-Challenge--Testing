@@ -15,6 +15,24 @@ server.get("/games", async (req, res) => {
   res.status(200).json(games);
 });
 
+//GET by ID request
+server.get("/games/:id", async (req, res) => {
+  try {
+    const game = await Games.findById(req.params.id);
+
+    if (game) {
+      res.status(200).json(game);
+    } else {
+      res.status(404).json({ message: "Game not found" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "There was an error retrieving the Game"
+    });
+  }
+});
+
 //POST a game request
 server.post("/games", async (req, res) => {
   try {

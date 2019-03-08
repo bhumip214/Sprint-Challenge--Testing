@@ -48,13 +48,44 @@ describe("GAMES ENDPOINTS TESTING", () => {
     });
   });
 
+  describe("GET BY ID '/games/:id'", () => {
+    //testing 200 HTTP status code
+    it("should return 200 OK", async () => {
+      const { body } = await request(server)
+        .post("/games")
+        .send({ title: "Mario", genre: "Platform", releaseYear: 1985 });
+      const res = await request(server).get(`/games/${body.id}`);
+
+      expect(res.status).toBe(200);
+    });
+
+    // testing 404 HTTP status code
+    it("should return 404 when a game is not found for the provided id", async () => {
+      const res = await request(server).get("/games/10");
+      expect(res.status).toBe(404);
+    });
+
+    //testing response of GET by ID
+    it("should return a game by ID", async () => {
+      const { body } = await request(server)
+        .post("/games")
+        .send({ title: "Pokemon", genre: "Video game", releaseYear: 1996 });
+
+      const res = await request(server).get(`/games/${body.id}`);
+      expect(res.body).toHaveProperty("id");
+      expect(res.body.title).toBe("Pokemon");
+      expect(res.body.genre).toBe("Video game");
+      expect(res.body.releaseYear).toEqual(1996);
+    });
+  });
+
   //testing POST
   describe("POST '/games'", () => {
     afterEach(async () => {
       await db("games").truncate();
     });
 
-    // testing response for POST
+    // testing response of POST
     it("should insert new game into the db", async () => {
       const res = await request(server)
         .post("/games")
@@ -103,6 +134,7 @@ describe("GAMES ENDPOINTS TESTING", () => {
       expect(res.status).toBe(200);
     });
 
+    // testing 404 HTTP status code
     it("should return 404 when a game does not exist", async () => {
       const { body } = await request(server)
         .post("/games")
