@@ -9,11 +9,11 @@ server.get("/", async (req, res) => {
 });
 
 // GET all games request
-// server.get("/games", async (req, res) => {
-//   const games = await Games.getAll();
+server.get("/games", async (req, res) => {
+  const games = await Games.getAll();
 
-//   res.status(200).json(games);
-// });
+  res.status(200).json(games);
+});
 
 //POST a game request
 server.post("/games", async (req, res) => {

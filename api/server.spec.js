@@ -1,6 +1,5 @@
 const request = require("supertest");
 const server = require("./server.js");
-const Games = require("../data/model/gamesModel");
 const db = require("../data/dbConfig");
 
 //Basic server testing
@@ -26,6 +25,29 @@ describe("BASIC SERVER TESTING - GET '/'", () => {
 
 //testing all games endpoints
 describe("GAMES ENDPOINTS TESTING", () => {
+  //testing GET
+  describe("GET '/games'", () => {
+    //testing 200 HTTP status code
+    it("should return 200 OK", async () => {
+      const res = await request(server).get("/games");
+
+      expect(res.status).toBe(200);
+    });
+
+    //testing the format of the data
+    it("should return JSON", async () => {
+      const res = await request(server).get("/games");
+
+      expect(res.type).toBe("application/json");
+    });
+
+    //testing response of GET
+    it("should return all games", async () => {
+      const res = await request(server).get("/games");
+      expect(res.body).toEqual([]);
+    });
+  });
+
   //testing POST
   describe("POST '/games'", () => {
     afterEach(async () => {
